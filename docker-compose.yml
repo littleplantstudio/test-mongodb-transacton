@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    command: [--replSet, rs0, --keyFile, /etc/mongo-keyfile]
+    container_name: mongo_rs0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rootuser
+      MONGO_INITDB_ROOT_PASSWORD: rootpass
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-keyfile:/etc/mongo-keyfile
+      - mongo_data:/data/db
+    security_opt:
+      - no-new-privileges
+
+  # mongo-client:
+  #   image: mongo
+  #   command: tail -f /dev/null
+  #   depends_on:
+  #     - mongo
+
+volumes:
+  mongo_data:
